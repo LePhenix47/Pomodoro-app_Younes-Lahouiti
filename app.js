@@ -7,25 +7,23 @@ let totalAmountOfSecondsBreak = 300; //5 minutes
 function studyingTimer(totalAmountOfSeconds) {
   let currentMinutes = parseInt(totalAmountOfSeconds / 60);
   let currentSeconds = totalAmountOfSeconds % 60;
-  do {
-    setTimeout(() => {
-      if (totalAmountOfSeconds < 0) {
-        return;
-      }
-      if (currentMinutes < 1) {
-        currentMinutes = `0${currentMinutes}`;
-      }
-      if (currentSeconds < 10) {
-        currentSeconds = `0${currentSeconds}`;
-      }
-      studyingTimerElement.textContent = `${currentMinutes}:${currentSeconds}`;
-      console.log({ totalAmountOfSeconds });
-      console.log({ currentMinutes }, { currentSeconds });
-      totalAmountOfSeconds--;
-    }, 1000);
-  } while (totalAmountOfSeconds >= 0);
+  setTimeout(() => {
+    if (totalAmountOfSeconds < 0) {
+      return;
+    }
+    if (currentMinutes < 1) {
+      currentMinutes = `0${currentMinutes}`;
+    }
+    if (currentSeconds < 10) {
+      currentSeconds = `0${currentSeconds}`;
+    }
+    studyingTimerElement.textContent = `${currentMinutes}:${currentSeconds}`;
+    console.log({ totalAmountOfSeconds });
+    console.log({ currentMinutes }, { currentSeconds });
+    totalAmountOfSeconds--;
+  }, 1000);
 }
-studyingTimer(totalAmountOfSecondsStudying);
+// studyingTimer(totalAmountOfSecondsStudying);
 
 // function breakTimer(totalAmountOfSeconds) {
 //   setInterval(() => {

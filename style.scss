@@ -4,8 +4,6 @@ $bg-color-secondary: #ffd194;
 $bg-color-primary--dark-theme: #8f1e0a;
 $bg-color-secondary--dark-theme: #002e6b;
 
-
-
 $text-color: #161616;
 $bg-card-color: white;
 $bg-button-color: white;
@@ -45,7 +43,7 @@ $shadow-color--active: darken($shadow-color, 20%);
     $bg-button-color--hover: lighten($bg-button-color, 10%);
     $bg-button-color--active: lighten($bg-button-color, 30%);
 
-    $shadow-color: rgba(255, 255, 255, 0.8);
+    $shadow-color: rgba(255, 255, 255, 0.2);
     $shadow-color--hover: darken($shadow-color, 20%);
     $shadow-color--active: lighten($shadow-color, 20%);
 
@@ -73,6 +71,13 @@ $shadow-color--active: darken($shadow-color, 20%);
     }
 }
 
+//Maps
+$breakpoints: (
+    mobile: 768px,
+    tablet: 992px,
+    laptop: 993px,
+    desktop: 1150px
+);
 
 //Normalization and typography
 *,
@@ -81,20 +86,6 @@ $shadow-color--active: darken($shadow-color, 20%);
     box-sizing: border-box;
     margin: 0;
     padding: 0;
-}
-
-body {
-    min-height: 100vh;
-    overflow: hidden;
-    font-family: 'Lato', sans-serif;
-    color: var(--text-color);
-    background-image: linear-gradient(to right, var(--bg-color-primary), var(--bg-color-secondary), var(--bg-color-primary--dark-theme), var(--bg-color-secondary--dark-theme));
-    background-position: 0% 0%;
-    background-size: 300% 300%;
-    transition:
-        color 900ms ease-in-out,
-        background-color 900ms ease-in-out,
-        background-position 650ms ease-in-out;
 }
 
 button {
@@ -129,6 +120,9 @@ button {
     margin: 0px 5px;
     box-shadow: 0px 5px 10px var(--shadow-color);
     overflow: hidden;
+    transition:
+        box-shadow 350ms ease-out,
+        background-color 650ms ease-in-out;
 
     &>* {
         text-align: center;
@@ -139,6 +133,11 @@ button {
         font-variant-numeric: tabular-nums slashed-zero;
         font-weight: normal;
         font-size: 26px;
+    }
+
+    @include mobile-only {
+        margin: 5px 0;
+        width: 75%;
     }
 }
 
@@ -154,24 +153,51 @@ button {
     background-color: var(--bg-button-color);
     color: var(--text-color);
     transition:
-        box-shadow 150ms ease-out,
-        background-color 150ms ease-out;
+        box-shadow 250ms ease-out,
+        background-color 250ms ease-in-out;
 
     &:hover {
+
         box-shadow: 0px 5px 10px var(--shadow-color--hover);
         background-color: var(--bg-button-color--hover);
 
     }
 
     &:active {
+
         box-shadow: 0px 5px 10px var(--shadow-color--active);
         background-color: var(--bg-button-color--active);
     }
 }
 
-//Maps
+@mixin mobile-only {
+    @media screen and (max-width: map-get($breakpoints, mobile)) {
+        @content;
+    }
+}
+
+
 
 //SASS Styles
+
+body {
+    min-height: 100vh;
+    overflow: hidden;
+    font-family: 'Lato', sans-serif;
+    color: var(--text-color);
+    background-image: linear-gradient(to right, var(--bg-color-primary), var(--bg-color-secondary), var(--bg-color-primary--dark-theme), var(--bg-color-secondary--dark-theme));
+    background-position: 0% 0%;
+    background-size: 300% 300%;
+
+    @include mobile-only {
+        background-size: 400% 400%;
+    }
+
+    ;
+    transition: color 900ms ease-in-out,
+    background-color 1s ease-in-out,
+    background-position 650ms ease-in-out;
+}
 
 .main {
     &__container {
@@ -184,6 +210,10 @@ button {
         font-weight: 300;
         font-size: 36px;
 
+        @include mobile-only {
+            margin: 35px 5px;
+        }
+
         &>span {
             -webkit-text-decoration: underline 1px;
             text-decoration: underline 1px;
@@ -194,21 +224,20 @@ button {
     &__cards {
         @include center-flex;
         margin-bottom: 50px;
+        width: 100%;
+
+        @include mobile-only {
+            @include center-flex-column;
+        }
     }
 
     &__work-card {
         @include card-styling;
-
-
         @include center-flex-column;
-
-
     }
 
     &__pause-card {
         @include card-styling;
-
-
         @include center-flex-column;
 
     }
@@ -221,15 +250,11 @@ button {
     &__pause-button {
         @include center-flex;
         @include button-styling;
-
-
     }
 
     &__restart-button {
         @include center-flex;
         @include button-styling;
-
-
     }
 
     &__info {
