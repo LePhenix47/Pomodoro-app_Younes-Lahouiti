@@ -1,0 +1,12 @@
+{
+  "name": "7.-pomodoro",
+  "version": "1.0.0",
+  "description": "This file contains the script to compile SASS code",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "sass": "sass -w ./style.scss:./style.css -c -s compressed"
+  },
+  "author": "Younes LAHOUITI",
+  "license": "ISC"
+}
