@@ -69,6 +69,12 @@ $shadow-color--active: darken($shadow-color, 20%);
     body {
         background-position: 100% 100% !important;
     }
+
+    .active {
+        &::after {
+            background-color: var(--bg-color-secondary) !important;
+        }
+    }
 }
 
 //Maps
@@ -86,6 +92,11 @@ $breakpoints: (
     box-sizing: border-box;
     margin: 0;
     padding: 0;
+}
+
+*::before,
+*::after {
+    transition: background-color 650ms ease-in-out;
 }
 
 button {
@@ -113,6 +124,7 @@ button {
 
 
 @mixin card-styling {
+    position: relative;
     background-color: var(--bg-card-color);
     width: 365px;
     height: 160px;
@@ -126,6 +138,11 @@ button {
 
     &>* {
         text-align: center;
+        background-color: var(--bg-card-color);
+        z-index: 1;
+        transition:
+            box-shadow 350ms ease-out,
+            background-color 650ms ease-in-out;
     }
 
     & p {
@@ -268,4 +285,43 @@ body {
 
 .hide {
     display: none !important;
+}
+
+.active {
+
+    &::before {
+        content: "";
+        position: absolute;
+        border-radius: 5px;
+        width: 98%;
+        height: 95%;
+        background-color: var(--bg-card-color);
+        z-index: 1;
+    }
+
+    &::after {
+        z-index: 0;
+        content: "";
+        position: absolute;
+        width: 1000px;
+        height: 75px;
+        background-color: var(--bg-color-secondary--dark-theme);
+        animation-name: rotateCard;
+        animation-duration: 3s;
+        animation-timing-function: linear;
+        animation-fill-mode: forwards;
+        animation-iteration-count: infinite;
+        animation-play-state: running;
+    }
+}
+
+
+@keyframes rotateCard {
+    from {
+        transform: rotate(0deg);
+    }
+
+    to {
+        transform: rotate(360deg);
+    }
 }
