@@ -52,14 +52,10 @@ function studyTimer() {
 
       studyingTimerElement.textContent = "30:00";
 
-      console.log({ amountOfCycles });
-
       numberOfCyclesElement.textContent = Math.trunc(amountOfCycles);
       return;
     }
     totalAmountOfSecondsStudying--;
-    console.log({ totalAmountOfSecondsStudying });
-    console.log({ currentMinutes }, { currentSeconds });
   } else {
     //If the timer is paused we want the animation to be paused as well
     if (workCard.classList.contains("active")) {
@@ -111,14 +107,10 @@ function pauseTimer() {
 
       breakTimerElement.textContent = "5:00";
 
-      console.log({ amountOfCycles });
-
       numberOfCyclesElement.textContent = Math.trunc(amountOfCycles);
       return;
     }
     totalAmountOfSecondsBreak--;
-    console.log({ totalAmountOfSecondsBreak });
-    console.log({ currentMinutes }, { currentSeconds });
   } else {
     //If the timer is paused we want the animation to be paused as well
     if (pauseCard.classList.contains("active")) {
@@ -142,8 +134,8 @@ const restartButton = document.querySelector(".main__restart-button");
 pausePlayButton.addEventListener("click", pauseTimers);
 restartButton.addEventListener("click", restartTimer);
 
-function pauseTimers(e) {
-  console.log("click");
+function pauseTimers() {
+  console.log("Pausing timer");
   if (pauseIcon.classList.contains("hide")) {
     //We play the timer
     isTimerPaused = false;
@@ -158,6 +150,7 @@ function pauseTimers(e) {
 }
 
 function restartTimer() {
+  console.log("Restarting");
   playIcon.classList.replace("hide", "show");
   pauseIcon.classList.replace("show", "hide");
   for (let i = 0; i < timerCards.length; i++) {
@@ -169,11 +162,8 @@ function restartTimer() {
       : (studyingTimerElement.textContent = "30:00");
   }
   isTimerPaused = true;
-  console.log("click 2");
   totalAmountOfSecondsStudying = 1800;
   totalAmountOfSecondsBreak = 300;
   amountOfCycles = 0;
   numberOfCyclesElement.textContent = amountOfCycles;
 }
-
-console.log(timerCards);
