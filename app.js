@@ -6,55 +6,28 @@ const workCard = document.querySelector(".main__work-card");
 
 const pauseCard = document.querySelector(".main__pause-card");
 
-const spinningCardAnimationPseudoElement =
-  document.querySelector(".active::after");
+const timerCards = document.querySelectorAll(".timer__card");
 
-let totalAmountOfSecondsStudying = 6; //30 minutes = 1800 seconds
-let totalAmountOfSecondsBreak = 1; //5 minutes = 300 seconds
+let totalAmountOfSecondsStudying = 1800; //30 minutes = 1800 seconds
+let totalAmountOfSecondsBreak = 300; //5 minutes = 300 seconds
 
 let isTimerPaused = true;
 
 const numberOfCyclesElement = document.querySelector(".main__info span");
 let amountOfCycles = 0;
 
-/*
-Trying to refactor the function
-
-function studyTimer(cardElement, totalAmountOfSeconds,timerElement, currentTimerInterval, nextTimerInterval) {
- if(!isTimerPaused){ 
-  if (!cardElement.classList.contains("active")) {
-    cardElement.classList.add("active");
-  }
-  let currentMinutes = Math.trunc(totalAmountOfSeconds / 60);
-  let currentSeconds = totalAmountOfSeconds % 60;
-
-  if (currentSeconds < 10) {
-    currentSeconds = `0${currentSeconds}`;
-  }
-
-  timerElement.textContent = `${currentMinutes}:${currentSeconds}`;
-  if (totalAmountOfSeconds < 0) {
-    cardElement.classList.remove("active");
-    totalAmountOfSeconds = 6;
-    clearInterval(currentTimerInterval);
-    nextTimerInterval = setInterval(typeOfTimer, 1000);
-    amountOfCycles += 0.5;
-    timerElement.textContent = totalAmountOfSeconds;
-    console.log({ amountOfCycles });
-    numberOfCyclesElement.textContent = Math.trunc(amountOfCycles);
-    return;
-  }
-  totalAmountOfSeconds--;
-  console.log({ totalAmountOfSeconds });
-  console.log({ currentMinutes }, { currentSeconds });}
-}
-*/
-
 function studyTimer() {
   if (!isTimerPaused) {
+    //If the timer isn't paused
     if (!workCard.classList.contains("active")) {
+      //If the element doesn't contain the 'active' class
       workCard.classList.add("active");
     }
+
+    const activeAnimation = document.querySelector(".active");
+    activeAnimation.style.animationPlayState = "running";
+
+    //Format the time
     let currentMinutes = Math.trunc(totalAmountOfSecondsStudying / 60);
     let currentSeconds = totalAmountOfSecondsStudying % 60;
 
@@ -63,15 +36,24 @@ function studyTimer() {
     }
 
     studyingTimerElement.textContent = `${currentMinutes}:${currentSeconds}`;
+
+    //Stop the current timer and start the other one
     if (totalAmountOfSecondsStudying < 0) {
       console.log("Study time over, time for the 5 minute break");
       workCard.classList.remove("active");
-      totalAmountOfSecondsStudying = 6;
+
+      totalAmountOfSecondsStudying = 1800;
+
       clearInterval(studyingTimerInterval);
+
       pauseTimerInterval = setInterval(pauseTimer, 1000);
+
       amountOfCycles += 0.5;
+
       studyingTimerElement.textContent = "30:00";
+
       console.log({ amountOfCycles });
+
       numberOfCyclesElement.textContent = Math.trunc(amountOfCycles);
       return;
     }
@@ -79,7 +61,12 @@ function studyTimer() {
     console.log({ totalAmountOfSecondsStudying });
     console.log({ currentMinutes }, { currentSeconds });
   } else {
-    console.log("Paused");
+    //If the timer is paused we want the animation to be paused as well
+    if (workCard.classList.contains("active")) {
+      const activeAnimation = document.querySelector(".active");
+      activeAnimation.style.animationPlayState = "paused";
+    }
+    console.log("Study timer status: paused");
   }
 }
 
@@ -90,10 +77,16 @@ clearInterval(pauseTimerInterval);
 
 function pauseTimer() {
   if (!isTimerPaused) {
+    //If the timer isn't paused
     if (!pauseCard.classList.contains("active")) {
+      //If the element doesn't contain the 'active' class
       pauseCard.classList.add("active");
     }
 
+    const activeAnimation = document.querySelector(".active");
+    activeAnimation.style.animationPlayState = "running";
+
+    //Format the time
     let currentMinutes = Math.trunc(totalAmountOfSecondsBreak / 60);
     let currentSeconds = totalAmountOfSecondsBreak % 60;
 
@@ -102,21 +95,37 @@ function pauseTimer() {
     }
 
     breakTimerElement.textContent = `${currentMinutes}:${currentSeconds}`;
+
+    //Stop the current timer and start the other one
     if (totalAmountOfSecondsBreak < 0) {
-      console.log("Break time over, time for the 30 minute studying session");
+      console.log("Study time over, time for the 5 minute break");
       pauseCard.classList.remove("active");
 
-      totalAmountOfSecondsBreak = 1;
+      totalAmountOfSecondsBreak = 300;
+
       clearInterval(pauseTimerInterval);
+
       studyingTimerInterval = setInterval(studyTimer, 1000);
-      breakTimerElement.textContent = "5:00";
+
       amountOfCycles += 0.5;
+
+      breakTimerElement.textContent = "5:00";
+
+      console.log({ amountOfCycles });
+
       numberOfCyclesElement.textContent = Math.trunc(amountOfCycles);
       return;
     }
     totalAmountOfSecondsBreak--;
     console.log({ totalAmountOfSecondsBreak });
     console.log({ currentMinutes }, { currentSeconds });
+  } else {
+    //If the timer is paused we want the animation to be paused as well
+    if (pauseCard.classList.contains("active")) {
+      const activeAnimation = document.querySelector(".active");
+      activeAnimation.style.animationPlayState = "paused";
+    }
+    console.log("Break time status: paused");
   }
 }
 
@@ -138,16 +147,10 @@ function pauseTimers(e) {
   if (pauseIcon.classList.contains("hide")) {
     //We play the timer
     isTimerPaused = false;
-    console.log(
-      "PLAY Does the work card contain the 'active' class?",
-      workCard.classList.contains(".active")
-    );
-    console.log({ spinningCardAnimationPseudoElement });
     pauseIcon.classList.replace("hide", "show");
     playIcon.classList.replace("show", "hide");
   } else {
     //We pause the timer
-    console.log("PAUSE Does the work card contain the 'active' class?");
     isTimerPaused = true;
     playIcon.classList.replace("hide", "show");
     pauseIcon.classList.replace("show", "hide");
@@ -155,10 +158,22 @@ function pauseTimers(e) {
 }
 
 function restartTimer() {
+  playIcon.classList.replace("hide", "show");
+  pauseIcon.classList.replace("show", "hide");
+  for (let i = 0; i < timerCards.length; i++) {
+    if (timerCards[i].classList.contains("active")) {
+      timerCards[i].classList.remove("active");
+    }
+    i === 1
+      ? (breakTimerElement.textContent = "5:00")
+      : (studyingTimerElement.textContent = "30:00");
+  }
   isTimerPaused = true;
   console.log("click 2");
-  totalAmountOfSecondsStudying = 6;
-  totalAmountOfSecondsBreak = 1;
+  totalAmountOfSecondsStudying = 1800;
+  totalAmountOfSecondsBreak = 300;
+  amountOfCycles = 0;
+  numberOfCyclesElement.textContent = amountOfCycles;
 }
 
-//Part 3 handling the number of cycles
+console.log(timerCards);

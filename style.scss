@@ -288,6 +288,8 @@ body {
 }
 
 .active {
+    -webkit-animation-play-state: running;
+    animation-play-state: running;
 
     &::before {
         content: "";
@@ -306,12 +308,29 @@ body {
         width: 1000px;
         height: 75px;
         background-color: var(--bg-color-secondary--dark-theme);
+        -webkit-animation-name: rotateCard;
         animation-name: rotateCard;
+        -webkit-animation-duration: 3s;
         animation-duration: 3s;
+        -webkit-animation-timing-function: linear;
         animation-timing-function: linear;
+        -webkit-animation-fill-mode: forwards;
         animation-fill-mode: forwards;
+        -webkit-animation-iteration-count: infinite;
         animation-iteration-count: infinite;
-        animation-play-state: running;
+        -webkit-animation-play-state: inherit;
+        animation-play-state: inherit;
+    }
+}
+
+
+@-webkit-keyframes rotateCard {
+    from {
+        transform: rotate(0deg);
+    }
+
+    to {
+        transform: rotate(360deg);
     }
 }
 
