@@ -48,9 +48,10 @@ function studyTimer() {
 
       pauseTimerInterval = setInterval(pauseTimer, 1000);
 
+      amountOfCycles % 1 === 0
+        ? (studyingTimerElement.textContent = "0:00")
+        : (studyingTimerElement.textContent = "30:00");
       amountOfCycles += 0.5;
-
-      studyingTimerElement.textContent = "30:00";
 
       numberOfCyclesElement.textContent = Math.trunc(amountOfCycles);
       return;
@@ -104,8 +105,9 @@ function pauseTimer() {
       studyingTimerInterval = setInterval(studyTimer, 1000);
 
       amountOfCycles += 0.5;
-
-      breakTimerElement.textContent = "5:00";
+      amountOfCycles % 1 === 0
+        ? (breakTimerElement.textContent = "5:00")
+        : (breakTimerElement.textContent = "0:00");
 
       numberOfCyclesElement.textContent = Math.trunc(amountOfCycles);
       return;
